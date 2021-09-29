@@ -1,10 +1,6 @@
 name: Continuous integration
 
-on:
-  push:
-    branches: [ $default-branch ]
-  pull_request:
-    branches: [ $default-branch ]
+on: [pull_request]
 
 jobs:
   laravel-tests:
