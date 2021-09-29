@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class IndexRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return true;
@@ -15,9 +14,9 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filters' => ['filled','array'],
+            'filters' => ['filled', 'array'],
             'filters.email' => ['email'],
-            'filters.name' => ['string','max:120'],
+            'filters.name' => ['string', 'max:120'],
         ];
     }
 }
