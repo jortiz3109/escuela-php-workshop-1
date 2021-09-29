@@ -19,7 +19,7 @@ class DeveloperFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->email()
+            'email' => $this->faker->unique()->email(),
         ];
     }
 }

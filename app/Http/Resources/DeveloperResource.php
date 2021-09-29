@@ -19,7 +19,7 @@ class DeveloperResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'created_at' => $this->created_at->toDateString(),
-            'updated_at' => $this->updated_at->toDateString()
+            'updated_at' => $this->updated_at->toDateString(),
         ];
     }
 }

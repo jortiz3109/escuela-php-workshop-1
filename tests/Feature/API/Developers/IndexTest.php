@@ -44,9 +44,10 @@ class IndexTest extends TestCase
 
         $response = $this->getJson('api/developers');
 
-        $response->assertJson(fn(AssertableJson $json) =>
-            $json->has('data.0', fn($json) =>
-                $json->where('name', $name)
+        $response->assertJson(
+            fn (AssertableJson $json) => $json->has(
+                'data.0',
+                fn ($json) => $json->where('name', $name)
                     ->where('email', $email)
                     ->where('created_at', now()->toDateString())
                     ->where('updated_at', now()->toDateString())
@@ -65,17 +66,19 @@ class IndexTest extends TestCase
 
         $response = $this->getJson('/api/developers?page=2');
 
-        $response->assertJson(fn(AssertableJson $json) =>
-            $json->has('data', 6)
-                ->has('meta', fn($json) =>
-                    $json->where('total', 21)
+        $response->assertJson(
+            fn (AssertableJson $json) => $json->has('data', 6)
+                ->has(
+                    'meta',
+                    fn ($json) => $json->where('total', 21)
                         ->where('per_page', 15)
                         ->where('current_page', 2)
                         ->etc()
                 )
-                ->has('data.5', fn($json) =>
-                    $json->where('name', $name)
-                        -> where('email', $email)
+                ->has(
+                    'data.5',
+                    fn ($json) => $json->where('name', $name)
+                        ->where('email', $email)
                         ->etc()
                 )
                 ->etc()
@@ -93,25 +96,27 @@ class IndexTest extends TestCase
         Developer::factory()->count(10)->create();
         Developer::factory()->create([
             'name' => $name,
-            'email' => $email
+            'email' => $email,
         ]);
 
         $response = $this->getJson('/api/developers?' . http_build_query(['filters' => $filters]));
 
-        $response->assertJson(fn (AssertableJson $json) =>
-            $json->has('data', 1)
-                ->has('data.0', fn($json) =>
-                $json->where('name', $name)
-                    -> where('email', $email)
+        $response->assertJson(
+            fn (AssertableJson $json) => $json->has('data', 1)
+                ->has(
+                    'data.0',
+                    fn ($json) => $json->where('name', $name)
+                    ->where('email', $email)
                     ->etc()
                 )
             ->etc()
         );
     }
 
-    public function developerProvider(): array {
+    public function developerProvider(): array
+    {
         return [
-            ['name' => 'John Edisson Ortiz', 'email' => 'john.ortiz@evertecinc.com']
+            ['name' => 'John Edisson Ortiz', 'email' => 'john.ortiz@evertecinc.com'],
         ];
     }
 
@@ -122,5 +127,4 @@ class IndexTest extends TestCase
             'find by name' => ['filters' => ['name' => 'John Edisson Ortiz']],
         ];
     }
-
 }
