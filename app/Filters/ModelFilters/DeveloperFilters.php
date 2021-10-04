@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filters\ModelFilters;
 
 use App\Filters\Conditions\Email;
@@ -11,7 +12,7 @@ class DeveloperFilters extends Filter
     protected string $model = Developer::class;
     protected array $applicableConditions = [
         'name' => Name::class,
-        'email' => Email::class
+        'email' => Email::class,
     ];
 
     protected function select(): Filter

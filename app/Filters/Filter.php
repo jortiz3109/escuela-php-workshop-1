@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 abstract class Filter
 {
     /**
-     * Applicable conditions to filter entity
+     * Applicable conditions to filter entity.
      */
     protected array $applicableConditions = [];
 
@@ -38,7 +38,7 @@ abstract class Filter
         return $this->query;
     }
 
-    protected function conditions(): Filter
+    protected function conditions(): self
     {
         $applicableConditions = array_intersect_key($this->conditions, $this->applicableConditions);
         foreach ($applicableConditions as $condition => $values) {
@@ -54,12 +54,12 @@ abstract class Filter
         return $this->applicableConditions[$condition];
     }
 
-    protected function joins(): Filter
+    protected function joins(): self
     {
         return $this;
     }
 
-    protected function select(): Filter
+    protected function select(): self
     {
         return $this;
     }

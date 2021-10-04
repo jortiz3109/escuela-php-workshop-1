@@ -17,6 +17,6 @@ final class FilterResolver
 
     public static function resolverFilterName(string $modelName): string
     {
-        return FilterResolver::$namespace . class_basename($modelName) . 'Filters';
+        return self::$namespace . class_basename($modelName) . 'Filters';
     }
 }

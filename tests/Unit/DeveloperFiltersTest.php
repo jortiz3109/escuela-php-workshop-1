@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Models\Developer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class DeveloperFiltersTest extends TestCase

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filters\Conditions;
 
 use Illuminate\Database\Eloquent\Builder;
