@@ -20,7 +20,21 @@ class DeveloperFiltersTest extends TestCase
 
         $developers = Developer::filter([$field => $value])->get();
 
+        $this->assertEquals(1, $developers->count());
         $this->assertEquals($value, $developers->first()->{$field});
+    }
+
+    public function testItCanFilterByStatus(): void
+    {
+        $enabledAtDate = now()->subDay()->toDateString();
+        Developer::factory()->count(5)->create();
+        Developer::factory()->create(['enabled_at' => $enabledAtDate]);
+
+        $developers = Developer::filter(['enabled' => true])->get();
+
+        $this->assertEquals(1, $developers->count());
+        $this->assertTrue($developers->first()->isEnabled());
+        $this->assertEquals($enabledAtDate, $developers->first()->enabled_at->toDateString());
     }
 
     public function filtersProvider(): array

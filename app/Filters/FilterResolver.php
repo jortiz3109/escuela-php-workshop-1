@@ -5,7 +5,7 @@ namespace App\Filters;
 final class FilterResolver
 {
     /**
-     * The default namespace where model filters reside.
+     * The default namespace where model filters resides.
      */
     protected static string $namespace = 'App\\Filters\\ModelFilters\\';
 

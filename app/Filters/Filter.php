@@ -19,10 +19,10 @@ abstract class Filter
     protected Builder $query;
     protected array $conditions;
 
-    public function __construct(array $conditions)
+    public function __construct(array $conditions = [])
     {
         $this->query = $this->newModel()->newQuery();
-        $this->conditions = array_filter($conditions) ?? [];
+        $this->conditions = $conditions;
     }
 
     private function newModel(): Model
