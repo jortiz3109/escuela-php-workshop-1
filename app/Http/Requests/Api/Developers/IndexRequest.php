@@ -17,6 +17,8 @@ class IndexRequest extends FormRequest
             'filters' => ['filled', 'array'],
             'filters.email' => ['email'],
             'filters.name' => ['string', 'max:120'],
+            'filters.enabled' => ['boolean'],
+            'filters.enabled_at' => ['date_format:Y-m-d'],
         ];
     }
 }
