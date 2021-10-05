@@ -97,6 +97,7 @@ class IndexTest extends TestCase
         Developer::factory()->create([
             'name' => $name,
             'email' => $email,
+            'enabled_at' => now()->subMonth(),
         ]);
 
         $response = $this->getJson('/api/developers?' . http_build_query(['filters' => $filters]));
@@ -113,6 +114,29 @@ class IndexTest extends TestCase
         );
     }
 
+    /**
+     * @param string|null $enabledAt
+     * @dataProvider enabledAtProvider
+     */
+    public function testItCanFilterByStatus(?string $enabledAt): void
+    {
+        is_null($enabledAt)
+            ? Developer::factory()->disabled()->create()
+            : Developer::factory()->enabled($enabledAt)->create();
+
+        $response = $this->getJson('/api/developers?' . http_build_query(['filters' => ['enabled' => $enabledAt ? '1' : '0']]));
+
+        $response->assertJson(
+            fn (AssertableJson $json) => $json->has('data', 1)
+                ->has(
+                    'data.0',
+                    fn ($json) => $json->where('enabled_at', $enabledAt)
+                        ->etc()
+                )
+                ->etc()
+        );
+    }
+
     public function developerProvider(): array
     {
         return [
@@ -125,6 +149,15 @@ class IndexTest extends TestCase
         return [
             'find by email' => ['filters' => ['email' => 'john.ortiz@evertecinc.com']],
             'find by name' => ['filters' => ['name' => 'John Edisson Ortiz']],
+            'find by enabled_at' => ['filters' => ['enabled_at' => now()->subMonth()->toDateString()]],
+        ];
+    }
+
+    public function enabledAtProvider(): array
+    {
+        return [
+            'developer is enabled' => ['enabled_at' => now()->subMonth()->toDateString()],
+            'developer is not enabled' => ['enabled_at' => null],
         ];
     }
 }
