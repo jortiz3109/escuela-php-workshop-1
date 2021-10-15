@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::name('api.')->group(function () {
-    Route::apiResource('developers', DeveloperController::class)->only(['index']);
+    Route::apiResource('developers', DeveloperController::class)->only(['index', 'store', 'update']);
 });
