@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
+use TiMacDonald\Log\LogFake;
 
 class StoreTest extends TestCase
 {
@@ -42,8 +43,11 @@ class StoreTest extends TestCase
      */
     public function testItLogsDeveloperCreation(string $name, string $email): void
     {
+        Log::swap(new LogFake());
         $this->postJson('/api/developers', compact('name', 'email'));
-        Log::shouldReceive('info')->with('Developer created');
+        Log::assertLogged('info', function (string $message) {
+            return 'New developer created' === $message;
+        });
     }
 
     /**
