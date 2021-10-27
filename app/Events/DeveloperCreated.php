@@ -8,7 +8,8 @@ use Illuminate\Queue\SerializesModels;
 
 class DeveloperCreated
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
+    use SerializesModels;
 
     private Developer $developer;
 

@@ -26,16 +26,6 @@ class EventServiceProvider extends ServiceProvider
             SendWelcomeMessage::class,
             LogDeveloperCreation::class,
             LogDevelopersCount::class,
-        ]
+        ],
     ];
-
-    /**
-     * Register any events for your application.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
 }
