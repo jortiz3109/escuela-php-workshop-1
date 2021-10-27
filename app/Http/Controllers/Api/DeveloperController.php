@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Actions\Developer\StoreAction;
 use App\Actions\Developer\UpdateAction;
+use App\Events\DeveloperCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Developers\IndexRequest;
 use App\Http\Requests\Api\Developers\StoreRequest;
@@ -27,6 +28,7 @@ class DeveloperController extends Controller
     public function store(StoreRequest $request, StoreAction $storeAction): JsonResponse
     {
         $developer = $storeAction->execute($request->validated(), new Developer());
+        DeveloperCreated::dispatch($developer);
         return response()->json($developer->toArray(), Response::HTTP_CREATED);
     }
 

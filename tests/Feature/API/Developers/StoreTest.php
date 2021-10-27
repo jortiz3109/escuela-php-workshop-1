@@ -2,8 +2,11 @@
 
 namespace Tests\Feature\API\Developers;
 
+use App\Mail\Welcome;
 use App\Models\Developer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +25,25 @@ class StoreTest extends TestCase
 
         $response->assertStatus(Response::HTTP_CREATED);
         $this->assertDatabaseHas('developers', compact('name', 'email'));
+    }
+
+    /**
+     * @dataProvider developerProvider
+     */
+    public function testItSendWelcomeEmailWhenDeveloperIsCreated(string $name, string $email): void
+    {
+        Mail::fake();
+        $this->postJson('/api/developers', compact('name', 'email'));
+        Mail::assertSent(Welcome::class);
+    }
+
+    /**
+     * @dataProvider developerProvider
+     */
+    public function testItLogsDeveloperCreation(string $name, string $email): void
+    {
+        $this->postJson('/api/developers', compact('name', 'email'));
+        Log::shouldReceive('info')->with('Developer created');
     }
 
     /**
